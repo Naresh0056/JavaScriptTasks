@@ -1,0 +1,1 @@
+document.write("Access js from other file");
