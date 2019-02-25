@@ -1,0 +1,103 @@
+<html>
+    <body>
+        <script>
+          class Shape{
+            //   constructor(){
+            //       throw new Error("Shape is an abstract class You can't create object")
+            //   }
+              printArea(){
+                  throw new Error("child class is not abstract and does not override the printArea Method")
+               }
+              findArea(){
+                throw new Error("child class is not abstract and does not override the findArea Method")
+              }
+            
+          }
+          class Circle extends Shape{
+               
+              constructor(radius){
+                 d.printArea();
+                  this.radius=radius
+              }
+              findArea(){
+                  return 3.14*this.radius*this.radius
+              }
+              printArea(){
+                  alert(`Area of Circle =  ${this.findArea()}`)
+              }
+          }
+          
+          class Rectangle extends Shape{
+              constructor(length, width){
+                  super();
+                  this.width=width
+                  this.length=length
+              }
+              findArea(){
+                   return this.length*this.width
+              }
+              printArea(){
+                  alert(`Area of Rectangle =  ${this.findArea()}`)
+              }
+          }
+          class Triangle extends Shape{
+              constructor(base, height){
+                  super();
+                  this.base=base
+                  this.height=height
+              }
+              findArea(){
+                   return 0.5*this.base*this.height
+              }
+              printArea(){
+                  alert(`Area of Triangle =  ${this.findArea()}`)
+              }
+          }
+          let con;
+          var shape=prompt('Enter Shape Like Rectangle,Triangle,Circle')
+          while(true){
+            switch (shape) {
+              case 'circle':
+                  let radius = +prompt('Enter Raidus')
+                  var circle=new Circle(radius)
+                  circle.printArea();
+                  con=confirm('Do you want to continue with circle')
+                  if(con == false){
+                     shape=prompt('Enter Shape Like Rectangle,Triangle,Circle')
+
+                  }
+                     //window.stop();
+                  break;
+              case 'rectangle':
+                  let l = +prompt("Enter length")
+                  let b = +prompt("Enter width")
+                  var rectagle = new Rectangle(l,b)
+                  rectagle.printArea();
+                   con=confirm('Do you want to continue with Rectangle')
+                  if(con == false){
+                     shape=prompt('Enter Shape Like Rectangle,Triangle,Circle')
+
+                  }
+                  break;
+              case 'triangle' :
+                  let ba = +prompt("Enter base")
+                  let h = +prompt("Enter height")
+                  let triangle=new Triangle(ba,h)
+                  triangle.printArea();
+                  con=confirm('Do you want to continue with Triangle')
+                  if(con == false){
+                     shape=prompt('Enter Shape Like Rectangle,Triangle,Circle')
+
+                  }
+                  break;
+          
+              default:
+                 throw new Error("shape is not valid ")
+                  break;
+           }
+
+         }
+         
+        </script>
+    </body>
+</html>
