@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+<title>Load Data From API</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<body onscroll="onScrolling()">
+    <div class="w3-container" id='body'>
+        <ul class="w3-ul w3-card-4"></ul>
+    </div>
+    <script>
+        class Loading {
+            constructor() {
+                this.id = 0
+                this.loadData = new LoadData();
+            }
+
+            loading() {
+                if (this.id == 0)
+                    this.id = this.loadData.loadData(0);
+                else {
+                    let body = document.getElementById('body')
+                    let h = body.offsetHeight
+                    let yOffset = window.pageYOffset
+                    var y = yOffset + window.innerHeight
+                    if (y >= h) {
+                        console.log('naresh')
+                        this.id = this.loadData.loadData(this.id);
+                    }
+                }
+            }
+        }
+
+        class LoadData {
+            constructor(){
+                this.json = JSON.parse(localStorage.getItem('data'))
+            }
+            changeImage() {
+                var body = document.getElementById('body')
+                let im = document.querySelectorAll('img')
+                im.forEach(im => {
+                    if ((im.offsetTop > body.offsetTop) && (im.offsetTop <= body.offsetTop + 687 + body.scrollHeight)) {
+                        let imgId = im.getAttribute('id');
+                        im.setAttribute('src', this.json[imgId].url)
+                        im.style = 'width:95px'
+                    }
+
+                })
+            }
+            loadData(startIndex) {
+                var ul = document.querySelector("ul")
+                ul.id = 'profile'
+                this.currentIndex = startIndex + 10
+                for (let i = startIndex; i < this.currentIndex; i++) {
+                    var li = document.createElement('li')
+                    li.className = 'w3-bar';
+                    var img = document.createElement('IMG')
+                    img.id = this.json[i].id
+                    img.className = 'w3-bar-item w3-circle w3-hide-small'
+                    img.style = 'width:75px'
+                    img.setAttribute("src", this.json[i].thumbnailUrl)
+                    li.appendChild(img)
+                    var div = document.createElement('div')
+                    div.className = 'w3-bar-item'
+                    var span = document.createElement('span')
+                    span.className = 'w3-large'
+                    span.innerHTML = "ID :- " + this.json[i].id;
+                    div.appendChild(span)
+                    li.appendChild(div)
+                    ul.appendChild(li)
+
+                }
+                document.getElementById("profile").addEventListener("click", viewProfile);
+                function viewProfile() {
+                    let s = (event.target).childNodes[1].childNodes[0].innerHTML;
+                    sessionStorage.setItem('id', s.substring(6, s.length))
+                    window.open('Profile.html');
+                }
+                setTimeout(() => this.changeImage(), 1000);
+                return this.currentIndex;
+            }
+        }
+
+
+
+
+        var url = " https://jsonplaceholder.typicode.com/photos";
+        var xhr = new XMLHttpRequest();
+        xhr.open('get', url);
+        xhr.send();
+        var loadData;
+        xhr.onload = function () {
+            localStorage.setItem('data', xhr.responseText)
+            loadData = new Loading();
+            loadData.loading()
+
+        }
+        function onScrolling() {
+            loadData.loading()
+        }
+
+    </script>
+
+</body>
+
+</html>
